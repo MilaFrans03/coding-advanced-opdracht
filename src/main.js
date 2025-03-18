@@ -33,8 +33,6 @@ const swiper = new Swiper('.swiper', {
 
 // HET WEER
 
-
-
 // Een array met steden en hun coördinaten
 const cities = [
   { name: "Kopenhagen", lat: 55.6761, lon: 12.5683, elementId: "kopenhagen-temp" },
@@ -46,14 +44,14 @@ const cities = [
 
 // Haalt het weer op en toont het in de juiste HTML-elementen
 async function getWeather(city) {
-  const url = `https://api.openweathermap.org/data/3.0/onecall?lat=${city.lat}&lon=${city.lon}&appid=${apiKey}&units=metric`;
+  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${city.lat}&lon=${city.lon}&appid=${apiKey}&units=metric`;
 
   try {
       const response = await fetch(url);
       const json = await response.json();
 
-      if (json.current && json.current.temp) {
-          document.getElementById(city.elementId).textContent = json.current.temp;
+      if (json.main && json.main.temp) {
+          document.getElementById(city.elementId).textContent = json.main.temp + "°C";
       } else {
           document.getElementById(city.elementId).textContent = "Geen data";
       }
@@ -62,6 +60,7 @@ async function getWeather(city) {
       document.getElementById(city.elementId).textContent = "Kan niet laden";
   }
 }
+
 
 // Gebruik forEach om door alle steden te lopen en hun weer op te halen
 cities.forEach((city) => {
